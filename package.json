@@ -1,0 +1,33 @@
+{
+  "name": "spotyview",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CatarineGoncalves/SpotyView.git"
+  },
+  "keywords": [
+    "api",
+    "javascript",
+    "spotify",
+    "monks"
+  ],
+  "author": "Catarine Gonçalves",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CatarineGoncalves/SpotyView/issues"
+  },
+  "homepage": "https://github.com/CatarineGoncalves/SpotyView#readme",
+  "dependencies": {
+    "@spotify/web-api-ts-sdk": "^1.2.0",
+    "bootstrap": "^5.3.3",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2",
+    "querystring": "^0.2.1",
+    "spotify-web-api-node": "^5.0.2"
+  },
+  "description": ""
+}
