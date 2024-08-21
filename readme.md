@@ -49,13 +49,13 @@ Antes de começar, certifique-se de ter os seguintes itens instalados:
 
 3. Configure as credenciais do Spotify:
 
- - Crie um app na Spotify Developer Dashboard e obtenha o Client ID e Client Secret.
- - Crie um arquivo .env na raiz do projeto com as seguintes variáveis:
-      ```bash
-         CLIENT_ID=your_spotify_client_id
-         CLIENT_SECRET=your_spotify_client_secret
-         REDIRECT_URI=your_redirect_uri
-      
+    - Crie um app na Spotify Developer Dashboard e obtenha o Client ID e Client Secret.
+    - Crie um arquivo .env na raiz do projeto com as seguintes variáveis:
+         ```bash
+            CLIENT_ID=your_spotify_client_id
+            CLIENT_SECRET=your_spotify_client_secret
+            REDIRECT_URI=your_redirect_uri
+         
 4. Execute a aplicação:
    ```bash
    node app.js
