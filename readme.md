@@ -4,14 +4,11 @@ SpotyView é um aplicativo que extrai informações de artistas da API do Spotif
 
 ## Índice
 
-- [Descrição](#descrição)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Configuração do Ambiente](#configuração-do-ambiente)
-- [Execução](#execução)
-- [Endpoints](#endpoints)
-- [Licença](#licença)
+- [Descrição]
+- [Tecnologias Utilizadas]
+- [Pré-requisitos]
+- [Instalação]
+- [Configuração do Ambiente]
 
 ## Descrição
 
@@ -65,7 +62,7 @@ Antes de começar, certifique-se de ter os seguintes itens instalados:
 
 5. Acesse a aplicação:
 
-   # Abra um navegador e vá até *http://localhost:3000*.      
-   # Os dados coletados serão exibidos na página.
+   - Abra um navegador e vá até *http://localhost:3000*.      
+   - Os dados coletados serão exibidos na página.
 
 
