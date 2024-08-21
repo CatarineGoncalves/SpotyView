@@ -4,7 +4,8 @@ const app = express();
 const port = 3000;
 
 const spotifyAPI = require('./src/js/SpotifyAPI')
-
+pselPost = spotifyAPI.pselPost;
+getKeyFromMap = spotifyAPI.getKeyFromMap;
 commonGenre = spotifyAPI.commonGenre;
 followPop = spotifyAPI.followPop;
 transformData = spotifyAPI.transformData;
@@ -50,12 +51,17 @@ app.listen(port, async () => {
     const token = await getToken();
     const getAllArtist = await getArtistsData(token)
     const dataTransformed = await transformData(getAllArtist);
-    const followersPop = await followPop(dataTransformed, 'pop');
+    const popularArtist = await followPop(dataTransformed, 'pop');
     const commomGenre = await commonGenre(dataTransformed)
-    console.log(commomGenre)
-
-
-    // console.log(dataTransformed)
+    const listKeyFromMap = getKeyFromMap(commomGenre);
+    const postMethod = pselPost(popularArtist, commomGenre)
+    
+    console.log(postMethod)
+    // let objeto = commomGenre.keys();
+   
+    // // console.log('----------------------------------------------')
+    // // console.log('----------------------------------------------')
+    // console.log(objeto)
 
     
 
@@ -71,3 +77,5 @@ function generateRandomString(length) {
     }
     return result;
 }
+
+

@@ -1,0 +1,19 @@
+# Ignorar o arquivo .env que contém credenciais sensíveis
+.env
+
+# Ignorar diretórios de dependências
+node_modules/
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar diretórios de cache
+.cache/
+
+# Ignorar arquivos de build
+dist/
+build/
+
+# Ignorar arquivos de sistema operacional
+.DS_Store
+Thumbs.db

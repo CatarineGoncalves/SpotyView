@@ -54,32 +54,42 @@ function transformData(jsonData) {
     return {
       "name": element.name,
       "genres": element.genres,
-      "popularity": element.popularity,
       "followers": element.followers["total"]
     }
   })
+
   return result;
 }
 
-function followGenre(jsonData, genre) {
+function popRanking(jsonData, genre) {
+
   const result = jsonData.filter(artist =>
-    artist.genres.includes(genre)
-  ).sort((list, list2) => {
-    if (list.followers > list2.followers) {
-      return -1;
-    } else if (list.followers < list2.followers) {
-      return 1;
-    }
+    artist.genres.includes(genre)).sort((list, list2) => {
+      if (list.followers > list2.followers) {
+        return -1;
+      } else if (list.followers < list2.followers) {
+        return 1;
+      }
+      return 0;
+    })
 
-    return 0;
-  })
+  const listFollowers = [];
 
-  return result;
+  for (let i = 0; i < result.length; i++) {
+    listFollowers.push(
+      {
+        'name': result[i]['name'],
+
+        'followers': result[i]['followers']
+      })
+  }
+
+  return listFollowers;
 }
 
-function commonGenre(artistList) {
+function genreRanking(artistList) {
   const mapGenres = new Map();
-  let mapaOrdenado;
+  let mapOrdenad;
   // const result = jsonData
 
   for (const artist of artistList) {
@@ -96,18 +106,41 @@ function commonGenre(artistList) {
         mapGenres.set(genre, 1);
       }
 
-      // Ordena o mapa pelos valores (quantidade de vezes que o gênero apareceu)
     }
 
   }
 
-  mapaOrdenado = new Map([...mapGenres.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5)) 
-  return mapaOrdenado;
+  // Ordena o mapa pelos valores (quantidade de vezes que o gênero apareceu)
+  mapOrdenad = Array.from(new Map([...mapGenres.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5)).keys());
+
+  return mapOrdenad;
 }
 
-async function pselPost(jsonData) {
-  const url = "http://psel-solution-automation-cf-ubqz773kaq-uc.a.run.app?access_token=bC2lWA5c7mt1rSPR"
+function getKeyFromMap(...ranking) {
+  return ranking.join(",").split(",");
 }
 
+async function pselPost(a, b) {
+  
+  const application = {
+    "github_url": "https://github.com/CatarineGoncalves/SpotyView",
+    "name": "Catarine Gonçalves",
+    "pop_ranking": JSON.stringify(a),
+    "genre_ranking": b
+  }
 
-module.exports = { getArtistsData, transformData, followPop: followGenre, commonGenre };
+  // const url = "http://psel-solution-automation-cf-ubqz773kaq-uc.a.run.app?access_token=bC2lWA5c7mt1rSPR"
+
+  fetch('/json',
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify(application)
+  }).then((res) => { return res.json(); })
+
+}
+
+module.exports = { getArtistsData, transformData, followPop: popRanking, commonGenre: genreRanking, getKeyFromMap, pselPost };
