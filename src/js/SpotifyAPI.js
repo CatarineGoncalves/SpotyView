@@ -1,4 +1,4 @@
-
+import fetch from 'node-fetch';
 
 const ids = [
   "6eUKZXaKkcviH0Ku9w2n3V", "1dfeR4HaWDbWqFHLkxsg1d", "66CXWjxzNUsdJxJ2JdwvnR",
@@ -9,46 +9,24 @@ const ids = [
 ];
 
 export async function getArtistsData(token) {
-
   const url = `https://api.spotify.com/v1/artists?ids=${ids.join(',')}`;
-
-  const headers = {
-    'Authorization': `Bearer ${token}`
-  };
+  const headers = { 'Authorization': `Bearer ${token}` };
 
   try {
-
-    //puxa daqui o dado e já tem o metodo await (sendo uma função assicrona)
-    const response = await fetch(url, { headers })
-      .then(resp => {
-
-        if (!resp.ok) {
-          return new Error('falhou a requisição') // cairá no catch da promise
-        }
-
-        // verificando pelo status
-        if (resp.status === 404) {
-          return new Error('não encontrou qualquer resultado')
-        }
-
-        // retorna uma promise com os dados em JSON
-        return resp.json()
-
-      }
-      );
-
-    //já é o download pronto não necessita de await    
-    // console.log(response)
-    // console.log(response.artists)
-
-    // retorna uma lista de artistas
-    return response.artists;
-
-
+    const response = await fetch(url, { headers });
+    if (!response.ok) {
+      throw new Error('Falhou a requisição');
+    }
+    if (response.status === 404) {
+      throw new Error('Não encontrou qualquer resultado');
+    }
+    const data = await response.json();
+    return data.artists;
   } catch (error) {
-    console.error('Erro ao obter os dados dos artistas', error);
+    console.error('Erro ao obter os dados dos artistas:', error);
+    throw error;
   }
-};
+}
 
 export function transformData(jsonData) {
   const result = jsonData.map(element => {
