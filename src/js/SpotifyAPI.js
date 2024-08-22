@@ -1,4 +1,5 @@
 
+
 const ids = [
   "6eUKZXaKkcviH0Ku9w2n3V", "1dfeR4HaWDbWqFHLkxsg1d", "66CXWjxzNUsdJxJ2JdwvnR",
   "04gDigrS5kc9YWfZHwBETP", "53XhwfbYqKCa1cC15pYq2q", "7dGJo4pcD2V6oG8kP0tJRR",
@@ -7,7 +8,7 @@ const ids = [
   "1uNFoZAHBGtllmzznpCI3s", "6S2OmqARrzebs0tKUEyXyp", "06HL4z0CvFAxyc27GXpf02"
 ];
 
-const getArtistsData = async (token) => {
+export async function getArtistsData(token) {
 
   const url = `https://api.spotify.com/v1/artists?ids=${ids.join(',')}`;
 
@@ -49,7 +50,7 @@ const getArtistsData = async (token) => {
   }
 };
 
-function transformData(jsonData) {
+export function transformData(jsonData) {
   const result = jsonData.map(element => {
     return {
       "name": element.name,
@@ -61,7 +62,7 @@ function transformData(jsonData) {
   return result;
 }
 
-function popRanking(jsonData, genre) {
+export function popRanking(jsonData, genre) {
 
   const result = jsonData.filter(artist =>
     artist.genres.includes(genre)).sort((list, list2) => {
@@ -87,7 +88,7 @@ function popRanking(jsonData, genre) {
   return listFollowers;
 }
 
-function genreRanking(artistList) {
+export function genreRanking(artistList) {
   const mapGenres = new Map();
   let mapOrdenad;
   // const result = jsonData
@@ -116,31 +117,35 @@ function genreRanking(artistList) {
   return mapOrdenad;
 }
 
-function getKeyFromMap(...ranking) {
+export function getKeyFromMap(...ranking) {
   return ranking.join(",").split(",");
 }
 
-async function pselPost(a, b) {
-  
-  const application = {
-    "github_url": "https://github.com/CatarineGoncalves/SpotyView",
-    "name": "Catarine Gonçalves",
-    "pop_ranking": JSON.stringify(a),
-    "genre_ranking": b
-  }
+export async function sendRankings(popRanking, genreRanking) {
+  const payload = {
+    github_url: "https://github.com/CatarineGoncalves/SpotyView",
+    name: "Catarine Gonçalves",
+    pop_ranking: popRanking,
+    genre_ranking: genreRanking
+  };
 
-  // const url = "http://psel-solution-automation-cf-ubqz773kaq-uc.a.run.app?access_token=bC2lWA5c7mt1rSPR"
+  const url = "https://psel-solution-automation-cf-ubqz773kaq-uc.a.run.app?access_token=bC2lWA5c7mt1rSPR";
 
-  fetch('/json',
-    {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      method: "POST",
-      body: JSON.stringify(application)
-  }).then((res) => { return res.json(); })
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+    console.log('Resposta do servidor:', result);
+
+  } catch (error) {
+    console.error('Resposta do erro:', error);
+  }
 
 }
 
-module.exports = { getArtistsData, transformData, followPop: popRanking, commonGenre: genreRanking, getKeyFromMap, pselPost };
